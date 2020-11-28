@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#b0ceecd9</color>
+    <color name="colorPrimaryDark">#A6C2B1</color>
+    <color name="colorAccent">#C9D51B</color>
+    <color name="background">#20201a</color>
+    <color name="zelena">#95c297</color>
+    <color name="zuta">#f4ec94</color>
+    <color name="bojaIzPalete">#f8dc98</color>
+    <color name="plainText">#ffffff</color>
+    <color name="lowOpacityYellow">#45f4ec94</color>
+    <color name="lowOpacityGreen">#8895c297</color>
+</resources>

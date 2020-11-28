@@ -1,0 +1,38 @@
+syntax = "proto3";
+
+package proto;
+
+option java_multiple_files = true;
+option java_package = "com.example.bloyal";
+option java_outer_classname = "BlockchainAndroidProto";
+//option objc_class_prefix = "RTG";
+
+service BlockchainAndroid {
+    //simple RPC where client (android) sends request for email check - authentication
+    rpc LogInUser(User) returns (Success) {}
+
+    //simple RPC where client enrolls new user in blockchain
+    rpc SignUpUser(User) returns (Success) {}
+
+    //simple RPC where client requests for number of points
+    rpc GetPoints(User) returns (Points) {}
+
+    //simple RPC where client requests to add points for User
+    rpc AddPoints(Points) returns (Success) {}
+
+    //server-sided RPC where client requests transaction list
+    //rpc ListTransactions(User) returns (stream Transaction) {}
+}
+
+message Success {
+    bool success = 1;
+}
+
+message User {
+    string email = 1;
+    string password = 2;
+}
+
+message Points {
+    int32 points = 1;
+}

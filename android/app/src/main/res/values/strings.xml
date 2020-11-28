@@ -1,0 +1,21 @@
+<resources>
+    <string name="app_name">BLoyal</string>
+    <string name="logoDesc">Logo picture</string>
+    <string name="loginSwitch">Already have an account? </string>
+    <string name="signupSwitch">Don\'t have an account yet? </string>
+    <string name="login">Log in</string>
+    <string name="hintName">name</string>
+    <string name="hintEmail">email</string>
+    <string name="signup">Sign up</string>
+    <string name="hintPassword">password</string>
+    <string name="home_title">B Loyal</string>
+    <string name="points">Points</string>
+    <string name="transactions">Previous transactions</string>
+    <string name="settings">Settings</string>
+    <string name="location">Partner locations</string>
+    <string name="charity">Active charities</string>
+    <string name="measure_steps">Step count</string>
+    <string name="step_counter">Step counter</string>
+    <string name="steps_achieved">steps achieved</string>
+    <string name="stop_steps">stop counting</string>
+</resources>

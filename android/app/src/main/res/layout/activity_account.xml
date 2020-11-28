@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".AccountActivity"
+    android:background="@color/lowOpacityYellow">
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelineLeft"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintGuide_begin="24dp"
+        android:orientation="vertical" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelineRight"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintGuide_end="24dp"
+        android:orientation="vertical" />
+
+    <ImageView
+        android:id="@+id/ivBack"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="@id/guidelineLeft"
+        app:layout_constraintTop_toTopOf="@id/tvTitlePoints"
+        app:layout_constraintBottom_toBottomOf="@id/tvTitlePoints"
+        android:src="@drawable/back" />
+
+    <TextView
+        android:id="@+id/tvTitlePoints"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:fontFamily="sans-serif-black"
+        android:text="@string/points"
+        android:textColor="@color/zelena"
+        android:textSize="35sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toStartOf="@id/guidelineRight"
+        app:layout_constraintStart_toStartOf="@id/guidelineLeft"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        style="@style/Divider.Horizontal"
+        android:id="@+id/vDefiner"
+        app:layout_constraintTop_toBottomOf="@id/tvTitlePoints"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="5dp"/>
+
+    <TextView
+        android:id="@+id/tvPoints"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:fontFamily="monospace"
+        android:text="0"
+        android:textColor="@color/background"
+        android:textSize="80sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toStartOf="@id/guidelineRight"
+        app:layout_constraintStart_toStartOf="@id/guidelineLeft"
+        app:layout_constraintTop_toBottomOf="@id/vDefiner" />
+
+    <View
+        style="@style/Divider.Horizontal"
+        android:id="@+id/vXHorizontal"
+        app:layout_constraintTop_toBottomOf="@id/ivTransactions"
+        app:layout_constraintStart_toStartOf="@id/guidelineLeft"
+        app:layout_constraintEnd_toStartOf="@id/guidelineRight"
+        android:layout_marginTop="40dp"/>
+
+    <View
+        style="@style/Divider.Vertical"
+        android:id="@+id/vXVertical"
+        app:layout_constraintTop_toTopOf="@id/ivTransactions"
+        app:layout_constraintStart_toStartOf="@id/guidelineLeft"
+        app:layout_constraintEnd_toStartOf="@id/guidelineRight"
+        app:layout_constraintBottom_toBottomOf="@id/ivLocation" />
+
+    <ImageView
+        android:id="@+id/ivTransactions"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:src="@drawable/phone80"
+        app:layout_constraintEnd_toStartOf="@id/ivSettings"
+        app:layout_constraintStart_toStartOf="@id/guidelineLeft"
+        app:layout_constraintTop_toBottomOf="@id/tvPoints" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/transactions"
+        app:layout_constraintTop_toBottomOf="@id/ivTransactions"
+        app:layout_constraintStart_toStartOf="@id/ivTransactions"
+        app:layout_constraintEnd_toEndOf="@id/ivTransactions"
+        android:layout_marginTop="10dp"/>
+
+    <ImageView
+        android:id="@+id/ivSettings"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/settings80"
+        app:layout_constraintTop_toTopOf="@id/ivTransactions"
+        app:layout_constraintStart_toEndOf="@id/ivTransactions"
+        app:layout_constraintEnd_toEndOf="@id/guidelineRight"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/settings"
+        app:layout_constraintTop_toBottomOf="@id/ivSettings"
+        app:layout_constraintStart_toStartOf="@id/ivSettings"
+        app:layout_constraintEnd_toEndOf="@id/ivSettings"
+        android:layout_marginTop="10dp"/>
+
+    <ImageView
+        android:id="@+id/ivLocation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/location80"
+        app:layout_constraintTop_toBottomOf="@id/vXHorizontal"
+        app:layout_constraintStart_toStartOf="@id/ivTransactions"
+        app:layout_constraintEnd_toEndOf="@id/ivTransactions"
+        android:layout_marginTop="20dp"/>
+
+    <TextView
+        android:id="@+id/tvLocation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/location"
+        app:layout_constraintTop_toBottomOf="@id/ivLocation"
+        app:layout_constraintStart_toStartOf="@id/ivLocation"
+        app:layout_constraintEnd_toEndOf="@id/ivLocation"
+        android:layout_marginTop="10dp"/>
+
+    <ImageView
+        android:id="@+id/ivCharity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/heart80"
+        app:layout_constraintTop_toBottomOf="@id/vXHorizontal"
+        app:layout_constraintStart_toStartOf="@id/ivSettings"
+        app:layout_constraintEnd_toEndOf="@id/ivSettings"
+        android:layout_marginTop="20dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/charity"
+        app:layout_constraintTop_toBottomOf="@id/ivCharity"
+        app:layout_constraintStart_toStartOf="@id/ivCharity"
+        app:layout_constraintEnd_toEndOf="@id/ivCharity"
+        android:layout_marginTop="10dp"/>
+
+    <Button
+        android:id="@+id/btnCounter"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="@id/guidelineLeft"
+        app:layout_constraintEnd_toStartOf="@id/guidelineRight"
+        app:layout_constraintTop_toBottomOf="@id/tvLocation"
+        android:layout_marginTop="40dp"
+        android:background="@drawable/et_background"
+        android:textStyle="bold"
+        android:text="@string/measure_steps"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
