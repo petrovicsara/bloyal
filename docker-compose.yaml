@@ -1,0 +1,392 @@
+# Copyright IBM Corp. All Rights Reserved.
+#
+# SPDX-License-Identifier: Apache-2.0
+#
+
+version: '2'
+
+volumes:
+  orderer.bloyal.com:
+  peer0.idea.bloyal.com:
+  peer1.idea.bloyal.com:
+  peer2.idea.bloyal.com:
+  peer0.nis.bloyal.com:
+  peer1.nis.bloyal.com:
+  peer2.nis.bloyal.com:
+  peer0.zara.bloyal.com:
+  peer1.zara.bloyal.com:
+  peer0.dexyco.bloyal.com:
+  peer1.dexyco.bloyal.com:
+
+networks:
+  bloyal:
+
+services:
+
+  orderer.bloyal.com:
+    extends:
+      file: base.yaml
+      service: orderer-base
+    container_name: orderer.bloyal.com
+    networks:
+      - bloyal
+    volumes:
+        - ./channel-artifacts/genesis.block:/var/hyperledger/orderer/orderer.genesis.block
+        - ./crypto-config/ordererOrganizations/bloyal.com/orderers/orderer.bloyal.com/msp:/var/hyperledger/orderer/msp
+        - ./crypto-config/ordererOrganizations/bloyal.com/orderers/orderer.bloyal.com/tls/:/var/hyperledger/orderer/tls
+        - orderer.bloyal.com:/var/hyperledger/production/orderer
+    ports:
+    - 7050:7050
+
+  peer0.idea.bloyal.com:
+    container_name: peer0.idea.bloyal.com
+    extends:
+      file: base.yaml
+      service: peer-base
+    networks:
+      - bloyal
+    environment:
+      - CORE_PEER_ID=peer0.idea.bloyal.com
+      - CORE_PEER_ADDRESS=peer0.idea.bloyal.com:7051
+      - CORE_PEER_LISTENADDRESS=0.0.0.0:7051
+      - CORE_PEER_CHAINCODEADDRESS=peer0.idea.bloyal.com:7052
+      - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:7052
+      - CORE_PEER_GOSSIP_BOOTSTRAP=peer1.idea.bloyal.com:16051
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.idea.bloyal.com:7051
+      - CORE_PEER_LOCALMSPID=IdeaMSP
+    volumes:
+        - /var/run/:/host/var/run/
+        - ./crypto-config/peerOrganizations/idea.bloyal.com/peers/peer0.idea.bloyal.com/msp:/etc/hyperledger/fabric/msp
+        - ./crypto-config/peerOrganizations/idea.bloyal.com/peers/peer0.idea.bloyal.com/tls:/etc/hyperledger/fabric/tls
+        - peer0.idea.bloyal.com:/var/hyperledger/production
+    ports:
+      - 7051:7051
+
+  peer1.idea.bloyal.com:
+    container_name: peer1.idea.bloyal.com
+    extends:
+      file: base.yaml
+      service: peer-base
+    networks:
+      - bloyal
+    environment:
+      - CORE_PEER_ID=peer1.idea.bloyal.com
+      - CORE_PEER_ADDRESS=peer1.idea.bloyal.com:16051
+      - CORE_PEER_LISTENADDRESS=0.0.0.0:16051
+      - CORE_PEER_CHAINCODEADDRESS=peer1.idea.bloyal.com:16052
+      - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:16052
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer1.idea.bloyal.com:16051
+      - CORE_PEER_GOSSIP_BOOTSTRAP=peer0.idea.bloyal.com:7051
+      - CORE_PEER_LOCALMSPID=IdeaMSP
+    volumes:
+        - /var/run/:/host/var/run/
+        - ./crypto-config/peerOrganizations/idea.bloyal.com/peers/peer1.idea.bloyal.com/msp:/etc/hyperledger/fabric/msp
+        - ./crypto-config/peerOrganizations/idea.bloyal.com/peers/peer1.idea.bloyal.com/tls:/etc/hyperledger/fabric/tls
+        - peer1.idea.bloyal.com:/var/hyperledger/production
+
+    ports:
+      - 16051:16051
+
+  peer2.idea.bloyal.com:
+    container_name: peer2.idea.bloyal.com
+    extends:
+      file: base.yaml
+      service: peer-base
+    networks:
+      - bloyal
+    environment:
+      - CORE_PEER_ID=peer2.idea.bloyal.com
+      - CORE_PEER_ADDRESS=peer2.idea.bloyal.com:11051
+      - CORE_PEER_LISTENADDRESS=0.0.0.0:11051
+      - CORE_PEER_CHAINCODEADDRESS=peer2.idea.bloyal.com:11052
+      - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:11052
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer2.idea.bloyal.com:11051
+      - CORE_PEER_GOSSIP_BOOTSTRAP=peer0.idea.bloyal.com:7051
+      - CORE_PEER_LOCALMSPID=IdeaMSP
+    volumes:
+        - /var/run/:/host/var/run/
+        - ./crypto-config/peerOrganizations/idea.bloyal.com/peers/peer2.idea.bloyal.com/msp:/etc/hyperledger/fabric/msp
+        - ./crypto-config/peerOrganizations/idea.bloyal.com/peers/peer2.idea.bloyal.com/tls:/etc/hyperledger/fabric/tls
+        - peer2.idea.bloyal.com:/var/hyperledger/production
+
+    ports:
+      - 11051:11051
+
+  peer0.nis.bloyal.com:
+    container_name: peer0.nis.bloyal.com
+    extends:
+      file: base.yaml
+      service: peer-base
+    networks:
+      - bloyal
+    environment:
+      - CORE_PEER_ID=peer0.nis.bloyal.com
+      - CORE_PEER_ADDRESS=peer0.nis.bloyal.com:8051
+      - CORE_PEER_LISTENADDRESS=0.0.0.0:8051
+      - CORE_PEER_CHAINCODEADDRESS=peer0.nis.bloyal.com:8052
+      - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:8052
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.nis.bloyal.com:8051
+      - CORE_PEER_GOSSIP_BOOTSTRAP=peer1.nis.bloyal.com:13051
+      - CORE_PEER_LOCALMSPID=NisMSP
+    volumes:
+        - /var/run/:/host/var/run/
+        - ./crypto-config/peerOrganizations/nis.bloyal.com/peers/peer0.nis.bloyal.com/msp:/etc/hyperledger/fabric/msp
+        - ./crypto-config/peerOrganizations/nis.bloyal.com/peers/peer0.nis.bloyal.com/tls:/etc/hyperledger/fabric/tls
+        - peer0.nis.bloyal.com:/var/hyperledger/production
+    ports:
+      - 8051:8051
+
+  peer1.nis.bloyal.com:
+    container_name: peer1.nis.bloyal.com
+    extends:
+      file: base.yaml
+      service: peer-base
+    networks:
+      - bloyal
+    environment:
+      - CORE_PEER_ID=peer1.nis.bloyal.com
+      - CORE_PEER_ADDRESS=peer1.nis.bloyal.com:13051
+      - CORE_PEER_LISTENADDRESS=0.0.0.0:13051
+      - CORE_PEER_CHAINCODEADDRESS=peer1.nis.bloyal.com:13052
+      - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:13052
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer1.nis.bloyal.com:13051
+      - CORE_PEER_GOSSIP_BOOTSTRAP=peer0.nis.bloyal.com:8051
+      - CORE_PEER_LOCALMSPID=NisMSP
+    volumes:
+        - /var/run/:/host/var/run/
+        - ./crypto-config/peerOrganizations/nis.bloyal.com/peers/peer1.nis.bloyal.com/msp:/etc/hyperledger/fabric/msp
+        - ./crypto-config/peerOrganizations/nis.bloyal.com/peers/peer1.nis.bloyal.com/tls:/etc/hyperledger/fabric/tls
+        - peer1.nis.bloyal.com:/var/hyperledger/production
+    ports:
+      - 13051:13051
+
+  peer2.nis.bloyal.com:
+    container_name: peer2.nis.bloyal.com
+    extends:
+      file: base.yaml
+      service: peer-base
+    networks:
+      - bloyal
+    environment:
+      - CORE_PEER_ID=peer2.nis.bloyal.com
+      - CORE_PEER_ADDRESS=peer2.nis.bloyal.com:12051
+      - CORE_PEER_LISTENADDRESS=0.0.0.0:12051
+      - CORE_PEER_CHAINCODEADDRESS=peer2.nis.bloyal.com:12052
+      - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:12052
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer2.nis.bloyal.com:12051
+      - CORE_PEER_GOSSIP_BOOTSTRAP=peer0.nis.bloyal.com:8051
+      - CORE_PEER_LOCALMSPID=NisMSP
+    volumes:
+        - /var/run/:/host/var/run/
+        - ./crypto-config/peerOrganizations/nis.bloyal.com/peers/peer2.nis.bloyal.com/msp:/etc/hyperledger/fabric/msp
+        - ./crypto-config/peerOrganizations/nis.bloyal.com/peers/peer2.nis.bloyal.com/tls:/etc/hyperledger/fabric/tls
+        - peer2.nis.bloyal.com:/var/hyperledger/production
+    ports:
+      - 12051:12051
+
+  peer0.zara.bloyal.com:
+    container_name: peer0.zara.bloyal.com
+    extends:
+      file: base.yaml
+      service: peer-base
+    networks:
+      - bloyal
+    environment:
+      - CORE_PEER_ID=peer0.zara.bloyal.com
+      - CORE_PEER_ADDRESS=peer0.zara.bloyal.com:9051
+      - CORE_PEER_LISTENADDRESS=0.0.0.0:9051
+      - CORE_PEER_CHAINCODEADDRESS=peer0.zara.bloyal.com:9052
+      - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:9052
+      - CORE_PEER_GOSSIP_BOOTSTRAP=peer1.zara.bloyal.com:14051
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.zara.bloyal.com:9051
+      - CORE_PEER_LOCALMSPID=ZaraMSP
+    volumes:
+        - /var/run/:/host/var/run/
+        - ./crypto-config/peerOrganizations/zara.bloyal.com/peers/peer0.zara.bloyal.com/msp:/etc/hyperledger/fabric/msp
+        - ./crypto-config/peerOrganizations/zara.bloyal.com/peers/peer0.zara.bloyal.com/tls:/etc/hyperledger/fabric/tls
+        - peer0.zara.bloyal.com:/var/hyperledger/production
+    ports:
+      - 9051:9051
+
+  peer1.zara.bloyal.com:
+    container_name: peer1.zara.bloyal.com
+    extends:
+      file: base.yaml
+      service: peer-base
+    networks:
+      - bloyal
+    environment:
+      - CORE_PEER_ID=peer1.zara.bloyal.com
+      - CORE_PEER_ADDRESS=peer1.zara.bloyal.com:14051
+      - CORE_PEER_LISTENADDRESS=0.0.0.0:14051
+      - CORE_PEER_CHAINCODEADDRESS=peer1.zara.bloyal.com:14052
+      - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:14052
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer1.zara.bloyal.com:14051
+      - CORE_PEER_GOSSIP_BOOTSTRAP=peer0.zara.bloyal.com:9051
+      - CORE_PEER_LOCALMSPID=ZaraMSP
+    volumes:
+        - /var/run/:/host/var/run/
+        - ./crypto-config/peerOrganizations/zara.bloyal.com/peers/peer1.zara.bloyal.com/msp:/etc/hyperledger/fabric/msp
+        - ./crypto-config/peerOrganizations/zara.bloyal.com/peers/peer1.zara.bloyal.com/tls:/etc/hyperledger/fabric/tls
+        - peer1.zara.bloyal.com:/var/hyperledger/production
+
+    ports:
+      - 14051:14051
+
+  peer0.dexyco.bloyal.com:
+    container_name: peer0.dexyco.bloyal.com
+    extends:
+      file: base.yaml
+      service: peer-base
+    networks:
+      - bloyal
+    environment:
+      - CORE_PEER_ID=peer0.dexyco.bloyal.com
+      - CORE_PEER_ADDRESS=peer0.dexyco.bloyal.com:10051
+      - CORE_PEER_LISTENADDRESS=0.0.0.0:10051
+      - CORE_PEER_CHAINCODEADDRESS=peer0.dexyco.bloyal.com:10052
+      - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:10052
+      - CORE_PEER_GOSSIP_BOOTSTRAP=peer1.dexyco.bloyal.com:15051
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.dexyco.bloyal.com:10051
+      - CORE_PEER_LOCALMSPID=DexycoMSP
+    volumes:
+        - /var/run/:/host/var/run/
+        - ./crypto-config/peerOrganizations/dexyco.bloyal.com/peers/peer0.dexyco.bloyal.com/msp:/etc/hyperledger/fabric/msp
+        - ./crypto-config/peerOrganizations/dexyco.bloyal.com/peers/peer0.dexyco.bloyal.com/tls:/etc/hyperledger/fabric/tls
+        - peer0.dexyco.bloyal.com:/var/hyperledger/production
+    ports:
+      - 10051:10051
+
+  peer1.dexyco.bloyal.com:
+    container_name: peer1.dexyco.bloyal.com
+    extends:
+      file: base.yaml
+      service: peer-base
+    networks:
+      - bloyal
+    environment:
+      - CORE_PEER_ID=peer1.dexyco.bloyal.com
+      - CORE_PEER_ADDRESS=peer1.dexyco.bloyal.com:15051
+      - CORE_PEER_LISTENADDRESS=0.0.0.0:15051
+      - CORE_PEER_CHAINCODEADDRESS=peer1.dexyco.bloyal.com:15052
+      - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:15052
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer1.dexyco.bloyal.com:15051
+      - CORE_PEER_GOSSIP_BOOTSTRAP=peer0.dexyco.bloyal.com:10051
+      - CORE_PEER_LOCALMSPID=DexycoMSP
+    volumes:
+        - /var/run/:/host/var/run/
+        - ./crypto-config/peerOrganizations/dexyco.bloyal.com/peers/peer1.dexyco.bloyal.com/msp:/etc/hyperledger/fabric/msp
+        - ./crypto-config/peerOrganizations/dexyco.bloyal.com/peers/peer1.dexyco.bloyal.com/tls:/etc/hyperledger/fabric/tls
+        - peer1.dexyco.bloyal.com:/var/hyperledger/production
+
+    ports:
+      - 15051:15051
+
+  cli:
+    container_name: cli
+    image: hyperledger/fabric-tools:$IMAGE_TAG
+    tty: true
+    stdin_open: true
+    environment:
+      - SYS_CHANNEL=$SYS_CHANNEL
+      - GOPATH=/opt/gopath
+      - CORE_VM_ENDPOINT=unix:///host/var/run/docker.sock
+      - FABRIC_LOGGING_SPEC=INFO
+      - CORE_PEER_ID=cli
+      - CORE_PEER_ADDRESS=peer0.idea.bloyal.com:7051
+      - CORE_PEER_LOCALMSPID=IdeaMSP
+      - CORE_PEER_TLS_ENABLED=true
+      - CORE_PEER_TLS_CERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/idea.bloyal.com/peers/peer0.idea.bloyal.com/tls/server.crt
+      - CORE_PEER_TLS_KEY_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/idea.bloyal.com/peers/peer0.idea.bloyal.com/tls/server.key
+      - CORE_PEER_TLS_ROOTCERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/idea.bloyal.com/peers/peer0.idea.bloyal.com/tls/ca.crt
+      - CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/idea.bloyal.com/users/Admin@idea.bloyal.com/msp
+    working_dir: /opt/gopath/src/github.com/hyperledger/fabric/peer
+    command: /bin/bash
+    volumes:
+        - /var/run/:/host/var/run/
+        - ./../chaincode/:/opt/gopath/src/github.com/hyperledger/fabric-samples/chaincode
+        - ./crypto-config:/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/
+        - ./scripts:/opt/gopath/src/github.com/hyperledger/fabric/peer/scripts/
+        - ./channel-artifacts:/opt/gopath/src/github.com/hyperledger/fabric/peer/channel-artifacts
+    depends_on:
+      - orderer.bloyal.com
+      - peer0.idea.bloyal.com
+      - peer1.idea.bloyal.com
+      - peer2.idea.bloyal.com
+      - peer0.nis.bloyal.com
+      - peer1.nis.bloyal.com
+      - peer2.nis.bloyal.com
+      - peer0.zara.bloyal.com
+      - peer1.zara.bloyal.com
+      - peer0.dexyco.bloyal.com
+      - peer1.dexyco.bloyal.com
+    networks:
+      - bloyal
+
+
+# ca1:
+  #   extends:
+  #     file: base.yaml
+  #     service: ca-base
+  #   environment:
+  #     - FABRIC_CA_SERVER_CA_NAME=ca-idea
+  #     - FABRIC_CA_SERVER_TLS_CERTFILE=/etc/hyperledger/fabric-ca-server-config/ca.idea.bloyal.com-cert.pem
+  #     - FABRIC_CA_SERVER_TLS_KEYFILE=/etc/hyperledger/fabric-ca-server-config/priv_sk
+  #     - FABRIC_CA_SERVER_PORT=7054
+  #   ports:
+  #     - "7054:7054"
+  #   command: sh -c 'fabric-ca-server start --ca.certfile /etc/hyperledger/fabric-ca-server-config/ca.idea.bloyal.com-cert.pem --ca.keyfile /etc/hyperledger/fabric-ca-server-config/priv_sk -b admin:adminpw -d'
+  #   volumes:
+  #     - ./crypto-config/peerOrganizations/idea.bloyal.com/ca/:/etc/hyperledger/fabric-ca-server-config
+  #   container_name: ca_idea
+    
+
+  # ca2:
+  #   extends:
+  #     file: base.yaml
+  #     service: ca-base
+  #   environment:
+  #     - FABRIC_CA_SERVER_CA_NAME=ca-accounts
+  #     - FABRIC_CA_SERVER_TLS_CERTFILE=/etc/hyperledger/fabric-ca-server-config/ca.accounts.workspace-cert.pem
+  #     - FABRIC_CA_SERVER_TLS_KEYFILE=/etc/hyperledger/fabric-ca-server-config/priv_sk
+  #     - FABRIC_CA_SERVER_PORT=9054
+  #   ports:
+  #     - "9054:9054"
+  #   command: sh -c 'fabric-ca-server start --ca.certfile /etc/hyperledger/fabric-ca-server-config/ca.accounts.workspace-cert.pem --ca.keyfile /etc/hyperledger/fabric-ca-server-config/priv_sk -b admin:adminpw -d'
+  #   volumes:
+  #     - ./crypto-config/peerOrganizations/accounts.workspace/ca/:/etc/hyperledger/fabric-ca-server-config
+  #   container_name: ca_finance
+
+  # ca3:
+  #   extends:
+  #     file: base.yaml
+  #     service: ca-base
+  #   environment:
+  #     - FABRIC_CA_SERVER_CA_NAME=ca-hr
+  #     - FABRIC_CA_SERVER_TLS_CERTFILE=/etc/hyperledger/fabric-ca-server-config/ca.hr.workspace-cert.pem
+  #     - FABRIC_CA_SERVER_TLS_KEYFILE=/etc/hyperledger/fabric-ca-server-config/priv_sk
+  #     - FABRIC_CA_SERVER_PORT=11054
+  #   ports:
+  #     - "11054:11054"
+  #   command: sh -c 'fabric-ca-server start --ca.certfile /etc/hyperledger/fabric-ca-server-config/ca.hr.workspace-cert.pem --ca.keyfile /etc/hyperledger/fabric-ca-server-config/priv_sk -b admin:adminpw -d'
+  #   volumes:
+  #     - ./crypto-config/peerOrganizations/hr.workspace/ca/:/etc/hyperledger/fabric-ca-server-config
+  #   container_name: ca_hr
+  
+  # ca4:
+  #   extends:
+  #     file: base.yaml
+  #     service: ca-base
+  #   environment:
+  #     - FABRIC_CA_SERVER_CA_NAME=ca-marketing
+  #     - FABRIC_CA_SERVER_TLS_CERTFILE=/etc/hyperledger/fabric-ca-server-config/ca.marketing.workspace-cert.pem
+  #     - FABRIC_CA_SERVER_TLS_KEYFILE=/etc/hyperledger/fabric-ca-server-config/priv_sk
+  #     - FABRIC_CA_SERVER_PORT=13054
+  #   ports:
+  #     - "13054:13054"
+  #   command: sh -c 'fabric-ca-server start --ca.certfile /etc/hyperledger/fabric-ca-server-config/ca.marketing.workspace-cert.pem --ca.keyfile /etc/hyperledger/fabric-ca-server-config/priv_sk -b admin:adminpw -d'
+  #   volumes:
+  #     - ./crypto-config/peerOrganizations/marketing.workspace/ca/:/etc/hyperledger/fabric-ca-server-config
+  #   container_name: ca_marketing
+  #   networks:
+  #     - byfn  

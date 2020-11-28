@@ -1,0 +1,223 @@
+# Copyright IBM Corp. All Rights Reserved.
+#
+# SPDX-License-Identifier: Apache-2.0
+#
+
+---
+
+Organizations:
+    - &OrdererOrg
+        Name: OrdererOrg
+        ID: OrdererMSP
+        MSPDir: crypto-config/ordererOrganizations/bloyal.com/msp
+        Policies:
+            Readers:
+                Type: Signature
+                Rule: "OR('OrdererMSP.member')"
+            Writers:
+                Type: Signature
+                Rule: "OR('OrdererMSP.member')"
+            Admins:
+                Type: Signature
+                Rule: "OR('OrdererMSP.admin')"
+
+    - &Idea
+        Name: IdeaMSP
+        ID: IdeaMSP
+
+        MSPDir: crypto-config/peerOrganizations/idea.bloyal.com/msp
+
+        Policies:
+            Readers:
+                Type: Signature
+                Rule: "OR('IdeaMSP.admin', 'IdeaMSP.peer', 'IdeaMSP.client')"
+            Writers:
+                Type: Signature
+                Rule: "OR('IdeaMSP.admin', 'IdeaMSP.client')"
+            Admins:
+                Type: Signature
+                Rule: "OR('IdeaMSP.admin')"
+        AnchorPeers:
+            - Host: peer0.idea.bloyal.com
+              Port: 7051
+
+    - &Nis
+        Name: NisMSP
+        ID: NisMSP
+
+        MSPDir: crypto-config/peerOrganizations/nis.bloyal.com/msp
+
+        Policies:
+            Readers:
+                Type: Signature
+                Rule: "OR('NisMSP.admin', 'NisMSP.peer', 'NisMSP.client')"
+            Writers:
+                Type: Signature
+                Rule: "OR('NisMSP.admin', 'NisMSP.client')"
+            Admins:
+                Type: Signature
+                Rule: "OR('NisMSP.admin')"
+
+        AnchorPeers:
+            - Host: peer0.nis.bloyal.com
+              Port: 8051
+
+    - &Zara
+        Name: ZaraMSP
+        ID: ZaraMSP
+
+        MSPDir: crypto-config/peerOrganizations/zara.bloyal.com/msp
+
+        Policies:
+            Readers:
+                Type: Signature
+                Rule: "OR('ZaraMSP.admin', 'ZaraMSP.peer', 'ZaraMSP.client')"
+            Writers:
+                Type: Signature
+                Rule: "OR('ZaraMSP.admin', 'ZaraMSP.client')"
+            Admins:
+                Type: Signature
+                Rule: "OR('ZaraMSP.admin')"
+
+        AnchorPeers:
+            - Host: peer0.zara.bloyal.com
+              Port: 9051
+
+    - &Dexyco
+        Name: DexycoMSP
+        ID: DexycoMSP
+
+        MSPDir: crypto-config/peerOrganizations/dexyco.bloyal.com/msp
+
+        Policies:
+            Readers:
+                Type: Signature
+                Rule: "OR('DexycoMSP.admin', 'DexycoMSP.peer', 'DexycoMSP.client')"
+            Writers:
+                Type: Signature
+                Rule: "OR('DexycoMSP.admin', 'DexycoMSP.client')"
+            Admins:
+                Type: Signature
+                Rule: "OR('DexycoMSP.admin')"
+
+        AnchorPeers:
+            - Host: peer0.dexyco.bloyal.com
+              Port: 10051
+
+Capabilities:
+    Channel: &ChannelCapabilities
+        V1_4_3: true
+        V1_3: false
+        V1_1: false
+
+    Orderer: &OrdererCapabilities
+        V1_4_2: true
+        V1_1: false
+
+    Application: &ApplicationCapabilities
+        V1_4_2: true
+        V1_3: false
+        V1_2: false
+        V1_1: false
+
+Application: &ApplicationBloyal
+
+    Organizations:
+
+    Policies:
+        Readers:
+            Type: ImplicitMeta
+            Rule: "ANY Readers"
+        Writers:
+            Type: ImplicitMeta
+            Rule: "ANY Writers"
+        Admins:
+            Type: ImplicitMeta
+            Rule: "MAJORITY Admins"
+
+    Capabilities:
+        <<: *ApplicationCapabilities
+
+Orderer: &OrdererBloyal
+
+    BatchTimeout: 2s
+    BatchSize:
+        MaxMessageCount: 10
+        AbsoluteMaxBytes: 99 MB
+        PreferredMaxBytes: 512 KB
+    Organizations:
+    Policies:
+        Readers:
+            Type: ImplicitMeta
+            Rule: "ANY Readers"
+        Writers:
+            Type: ImplicitMeta
+            Rule: "ANY Writers"
+        Admins:
+            Type: ImplicitMeta
+            Rule: "MAJORITY Admins"
+        BlockValidation:
+            Type: ImplicitMeta
+            Rule: "ANY Writers"
+
+Channel: &ChannelBloyal
+    Policies:
+        Readers:
+            Type: ImplicitMeta
+            Rule: "ANY Readers"
+        Writers:
+            Type: ImplicitMeta
+            Rule: "ANY Writers"
+        Admins:
+            Type: ImplicitMeta
+            Rule: "MAJORITY Admins"
+            
+    Capabilities:
+        <<: *ChannelCapabilities
+
+Profiles:
+    BloyalChannel:
+        Consortium: SampleConsortium
+        <<: *ChannelBloyal
+        Application:
+            <<: *ApplicationBloyal
+            Organizations:
+                - *Idea
+                - *Nis
+                - *Zara
+                - *Dexyco
+            Capabilities:
+                <<: *ApplicationCapabilities
+
+    BloyalGenesis:
+        <<: *ChannelBloyal
+        Capabilities:
+            <<: *ChannelCapabilities
+        Orderer:
+            <<: *OrdererBloyal
+            OrdererType: etcdraft
+            EtcdRaft:
+                Consenters:
+                - Host: orderer.bloyal.com
+                  Port: 7050
+                  ClientTLSCert: crypto-config/ordererOrganizations/bloyal.com/orderers/orderer.bloyal.com/tls/server.crt
+                  ServerTLSCert: crypto-config/ordererOrganizations/bloyal.com/orderers/orderer.bloyal.com/tls/server.crt
+                
+            Addresses:
+                - orderer.bloyal.com:7050
+
+            Organizations:
+            - *OrdererOrg
+            Capabilities:
+                <<: *OrdererCapabilities
+        Application:
+            <<: *ApplicationBloyal
+            Organizations:
+            - <<: *OrdererOrg
+        Consortiums:
+            SampleConsortium:
+                Organizations:
+                - *Idea
+                - *Nis
+                - *Zara
+                - *Dexyco

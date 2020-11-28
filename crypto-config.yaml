@@ -1,0 +1,44 @@
+# Copyright IBM Corp. All Rights Reserved.
+#
+# SPDX-License-Identifier: Apache-2.0
+#
+
+OrdererOrgs:
+  - Name: Orderer
+    Domain: bloyal.com
+    EnableNodeOUs: true
+    Specs:
+      - Hostname: orderer 
+
+PeerOrgs:
+  - Name: Idea
+    Domain: idea.bloyal.com
+    EnableNodeOUs: true
+    Template:
+      Count: 3
+    Users:
+      Count: 1
+
+  - Name: Nis
+    Domain: nis.bloyal.com
+    EnableNodeOUs: true
+    Template:
+      Count: 3
+    Users:
+      Count: 1
+
+  - Name: Zara
+    Domain: zara.bloyal.com
+    EnableNodeOUs: true
+    Template:
+      Count: 2
+    Users:
+      Count: 1
+
+  - Name: Dexyco
+    Domain: dexyco.bloyal.com
+    EnableNodeOUs: true
+    Template:
+      Count: 2
+    Users:
+      Count: 1
